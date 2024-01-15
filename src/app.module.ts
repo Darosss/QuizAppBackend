@@ -5,9 +5,11 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { QuizCategoriesModule } from './quiz-categories';
 import { QuizAnswersModule } from './quiz-answers';
-import { QuizQuestionsModule } from './quiz-questions/quiz-questions.module';
+import { QuizQuestionsModule } from './quiz-questions';
 import { RouterModule } from '@nestjs/core';
 import { routes } from './routes';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { routes } from './routes';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
