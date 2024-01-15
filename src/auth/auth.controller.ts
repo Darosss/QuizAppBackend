@@ -32,10 +32,11 @@ export class AuthController {
       return { authenticated: false };
     }
 
-    const isValidToken = await this.authService.verifyToken(token);
-
+    const onlyToken = token.split(' ').at(1);
+    const isValidToken = await this.authService.verifyToken(onlyToken);
     if (isValidToken) {
-      const user = await this.authService.extractUserInfoFromToken(token);
+      const user = await this.authService.extractUserInfoFromToken(onlyToken);
+
       return { authenticated: true, user };
     } else {
       return { authenticated: false };
