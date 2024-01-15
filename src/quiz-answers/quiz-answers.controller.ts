@@ -11,17 +11,19 @@ import { QuizAnswersService } from './quiz-answers.service';
 import { CreateQuizAnswerDto } from './dto/create-quiz-answer.dto';
 import { UpdateQuizAnswerDto } from './dto/update-quiz-answer.dto';
 import { OnlyIDParamDTO } from 'src/mongo';
+import { RolesAdminSuperAdminGuard } from 'src/auth';
 
 @Controller()
 export class QuizAnswersController {
   constructor(private readonly quizAnswersService: QuizAnswersService) {}
 
+  @RolesAdminSuperAdminGuard()
   @Post()
   create(@Body() createQuizAnswerDto: CreateQuizAnswerDto) {
     return this.quizAnswersService.create(createQuizAnswerDto);
   }
 
-  //TODO: This shoould be only for administators
+  @RolesAdminSuperAdminGuard()
   @Get()
   findAll() {
     return this.quizAnswersService.findAll();
@@ -34,6 +36,7 @@ export class QuizAnswersController {
     });
   }
 
+  @RolesAdminSuperAdminGuard()
   @Patch(':id')
   update(
     @Param() { id }: OnlyIDParamDTO,
@@ -42,6 +45,7 @@ export class QuizAnswersController {
     return this.quizAnswersService.update(id, updateQuizAnswerDto);
   }
 
+  @RolesAdminSuperAdminGuard()
   @Delete(':id')
   remove(@Param() { id }: OnlyIDParamDTO) {
     return this.quizAnswersService.remove(id);
