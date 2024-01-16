@@ -10,6 +10,7 @@ import { RouterModule } from '@nestjs/core';
 import { routes } from './routes';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { QuizSubmissionsModule } from './quiz-submissions/quiz-submissions.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UsersModule } from './users/users.module';
     }),
     AuthModule,
     UsersModule,
+    QuizSubmissionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

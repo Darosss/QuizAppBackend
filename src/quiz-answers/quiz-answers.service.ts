@@ -8,9 +8,12 @@ import { CreateQuizAnswerDto } from './dto/create-quiz-answer.dto';
 import { UpdateQuizAnswerDto } from './dto/update-quiz-answer.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { QuizAnswer, QuizAnswerDataType } from './schemas/quiz-answer.schema';
-import { Model, ProjectionType } from 'mongoose';
+import { FilterQuery, Model, ProjectionType } from 'mongoose';
 import { QuizQuestionsService } from 'src/quiz-questions';
+import { AnsweredQuestionsType } from 'src/quiz-submissions';
+import { CheckAnsweredQuestionsReturnType } from './types';
 
+type FilterAnswerType = FilterQuery<QuizAnswer>;
 type ProjectonType = ProjectionType<QuizAnswer>;
 
 @Injectable()
@@ -49,14 +52,17 @@ export class QuizAnswersService {
     return this.quizAnswerModel.find().exec();
   }
 
-  async findOne(id: string, projection?: ProjectonType): Promise<QuizAnswer> {
+  async findOne(
+    filter: FilterAnswerType,
+    projection?: ProjectonType,
+  ): Promise<QuizAnswer> {
     const foundQuizAnswer = await this.quizAnswerModel
-      .findById(id, projection)
+      .findOne(filter, projection)
       .exec();
 
     if (!foundQuizAnswer)
       throw new NotFoundException({
-        message: `Quiz answer with id(${id}) not found`,
+        message: `Quiz answer not found`,
       });
 
     return foundQuizAnswer;
@@ -87,6 +93,23 @@ export class QuizAnswersService {
         { new: true },
       )
       .exec();
+  }
+
+  async checkAnsweredQuestions(
+    answeredQuestions: AnsweredQuestionsType,
+  ): Promise<CheckAnsweredQuestionsReturnType> {
+    const answeredValues: CheckAnsweredQuestionsReturnType = [];
+
+    for await (const [questionId, answerValue] of answeredQuestions) {
+      const answer = await this.findOne({ question: questionId });
+      const isCorrect = answer.answers.find(
+        ({ id }) => id === answerValue,
+      )?.isCorrect;
+
+      answeredValues.push([questionId, isCorrect]);
+    }
+
+    return answeredValues;
   }
 
   remove(id: string) {

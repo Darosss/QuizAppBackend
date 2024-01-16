@@ -7,9 +7,11 @@ import {
   QuizCategorySchema,
 } from './schemas/quiz-categories.schema';
 import { QuizQuestionsModule } from 'src/quiz-questions';
+import { QuizSubmissionsModule } from 'src/quiz-submissions';
 
 @Module({
   imports: [
+    forwardRef(() => QuizSubmissionsModule),
     forwardRef(() => QuizQuestionsModule),
     MongooseModule.forFeature([
       { name: QuizCategory.name, schema: QuizCategorySchema },

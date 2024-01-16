@@ -31,9 +31,10 @@ export class QuizAnswersController {
 
   @Get(':id')
   findOne(@Param() { id }: OnlyIDParamDTO) {
-    return this.quizAnswersService.findOne(id, {
-      answers: { isCorrect: false },
-    });
+    return this.quizAnswersService.findOne(
+      { _id: id },
+      { answers: { isCorrect: false } },
+    );
   }
 
   @RolesAdminSuperAdminGuard()

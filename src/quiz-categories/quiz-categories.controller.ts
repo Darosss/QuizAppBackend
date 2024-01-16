@@ -40,6 +40,11 @@ export class QuizCategoriesController {
     return this.quizCategoriesService.findOne(id);
   }
 
+  @Get(':id/can-start')
+  canStartQuiz(@Param() { id }: OnlyIDParamDTO) {
+    return this.quizCategoriesService.canStartQuiz(id);
+  }
+
   @Get(':id/questions')
   findCategoryQuestions(@Param() { id }: OnlyIDParamDTO) {
     return this.quizQuestionsService.findManyByQuizCategoryId(id);
