@@ -1,10 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, now } from 'mongoose';
+import mongoose, { HydratedDocument, now } from 'mongoose';
 
 export type QuizCategoryDocument = HydratedDocument<QuizCategory>;
 
 @Schema({ timestamps: true })
 export class QuizCategory {
+  _id: mongoose.Types.ObjectId;
+
   @Prop()
   name: string;
 
