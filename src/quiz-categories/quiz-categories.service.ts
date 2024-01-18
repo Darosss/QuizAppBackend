@@ -44,12 +44,16 @@ export class QuizCategoriesService {
     return foundQuiz;
   }
 
-  async canStartQuiz(id: string): Promise<CanStartQuizReturnType> {
+  async canStartQuiz(
+    id: string,
+    userId: string,
+  ): Promise<CanStartQuizReturnType> {
     const foundQuiz = await this.findOne(id);
 
     try {
       const foundSubmission = await this.quizSubmissionService.findOne({
         quizCategory: foundQuiz._id,
+        user: userId,
       });
 
       const msBetweenLastCompletion = this.calculateMSTimeBetweenCompletion(

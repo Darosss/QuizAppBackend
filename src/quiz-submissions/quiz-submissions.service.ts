@@ -95,6 +95,7 @@ export class QuizSubmissionsService {
   async submitByQuizId(quizId: string, data: SubmitQuizSubmissionServiceDto) {
     const canStartResponse = await this.quizCategoriesService.canStartQuiz(
       quizId,
+      data.userId,
     );
     if (!canStartResponse.canStart)
       throw new BadRequestException(

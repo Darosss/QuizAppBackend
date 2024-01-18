@@ -6,8 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  Inject,
   forwardRef,
+  Inject,
+  Request,
 } from '@nestjs/common';
 import { QuizCategoriesService } from './quiz-categories.service';
 import { CreateQuizCategoryDto } from './dto/create-quiz-category.dto';
@@ -41,8 +42,8 @@ export class QuizCategoriesController {
   }
 
   @Get(':id/can-start')
-  canStartQuiz(@Param() { id }: OnlyIDParamDTO) {
-    return this.quizCategoriesService.canStartQuiz(id);
+  canStartQuiz(@Param() { id }: OnlyIDParamDTO, @Request() req) {
+    return this.quizCategoriesService.canStartQuiz(id, req.user.sub);
   }
 
   @Get(':id/questions')
