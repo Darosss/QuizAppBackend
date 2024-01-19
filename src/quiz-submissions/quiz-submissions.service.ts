@@ -76,7 +76,7 @@ export class QuizSubmissionsService {
 
     if (!foundQuiz)
       throw new NotFoundException({
-        message: `Quiz not found`,
+        message: `Quiz submission not found`,
       });
 
     return foundQuiz;
@@ -110,6 +110,7 @@ export class QuizSubmissionsService {
     const totalAndCorrect = this.countTotalAndCorrectAnswers(reviewedAnswers);
 
     const foundSubmission = await this.quizSubmissionModel.findOne({
+      user: data.userId,
       quizCategory: quizId,
     });
 
