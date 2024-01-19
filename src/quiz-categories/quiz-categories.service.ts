@@ -91,7 +91,7 @@ export class QuizCategoriesService {
     updateQuizCategoryDto: UpdateQuizCategoryDto,
   ): Promise<QuizCategory> {
     return this.quizCategoryModel
-      .findByIdAndUpdate(id, updateQuizCategoryDto)
+      .findByIdAndUpdate(id, updateQuizCategoryDto, { new: true })
       .exec();
   }
 
