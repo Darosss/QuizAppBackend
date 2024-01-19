@@ -11,6 +11,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { RolesSuperAdminGuard, RolesAdminSuperAdminGuard } from 'src/auth';
+import { OnlyIDParamDTO } from 'src/mongo';
 
 @Controller('users')
 export class UsersController {
@@ -28,19 +29,22 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param() { id }: OnlyIDParamDTO) {
     return this.usersService.findOne({ _id: id }, { password: false });
   }
 
   @RolesSuperAdminGuard()
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(
+    @Param() { id }: OnlyIDParamDTO,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return this.usersService.update({ _id: id }, updateUserDto);
   }
 
   @RolesSuperAdminGuard()
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param() { id }: OnlyIDParamDTO) {
     return this.usersService.remove({ _id: id });
   }
 }

@@ -37,7 +37,7 @@ export class QuizQuestionsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') { id }: OnlyIDParamDTO) {
+  findOne(@Param() { id }: OnlyIDParamDTO) {
     return this.quizQuestionsService.findOne(id);
   }
 
@@ -57,7 +57,7 @@ export class QuizQuestionsController {
   @RolesAdminSuperAdminGuard()
   @Patch(':id')
   update(
-    @Param('id') { id }: OnlyIDParamDTO,
+    @Param() { id }: OnlyIDParamDTO,
     @Body() updateQuizQuestionDto: UpdateQuizQuestionDto,
   ) {
     return this.quizQuestionsService.update(id, updateQuizQuestionDto);
@@ -65,7 +65,7 @@ export class QuizQuestionsController {
 
   @RolesAdminSuperAdminGuard()
   @Delete(':id')
-  remove(@Param('id') { id }: OnlyIDParamDTO) {
+  remove(@Param() { id }: OnlyIDParamDTO) {
     return this.quizQuestionsService.remove(id);
   }
 }
