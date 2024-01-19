@@ -36,7 +36,6 @@ export class UsersService {
     projection: ProjectionUserType = { password: false },
   ): Promise<User> {
     const foundUser = await this.userModel.findOne(filter, projection).exec();
-
     if (!foundUser)
       throw new NotFoundException({
         message: `User not found`,
@@ -46,11 +45,9 @@ export class UsersService {
   }
 
   update(filter: FilterQueryUserType, updateUserDto: UpdateUserDto) {
-    return this.userModel.findOneAndUpdate(
-      filter,
-      { new: true },
-      updateUserDto,
-    );
+    return this.userModel.findOneAndUpdate(filter, updateUserDto, {
+      new: true,
+    });
   }
 
   remove(filter: FilterQueryUserType) {
