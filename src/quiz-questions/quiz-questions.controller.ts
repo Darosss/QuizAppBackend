@@ -49,6 +49,12 @@ export class QuizQuestionsController {
   }
 
   @RolesAdminSuperAdminGuard()
+  @Get(':id/answers/manage')
+  findCategoryQuestionsManage(@Param() { id }: OnlyIDParamDTO) {
+    return this.quizAnswersService.findOneByQuestionId(id);
+  }
+
+  @RolesAdminSuperAdminGuard()
   @Patch(':id')
   update(
     @Param('id') { id }: OnlyIDParamDTO,
